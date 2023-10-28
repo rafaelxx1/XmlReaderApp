@@ -23,6 +23,9 @@ namespace XmlReaderApp.connection
                 {
                     _connection.Open();
                     Console.WriteLine("ABERTA");
+                }else
+                {
+                    MessageBox.Show("you don't have connection with database, please contact the support");
                 }
             }catch (Exception ex) { Console.WriteLine(ex.ToString()); }
 

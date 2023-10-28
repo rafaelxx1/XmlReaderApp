@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using XmlReaderApp.connection;
 
 namespace XmlReaderApp.model
 {
@@ -53,7 +56,23 @@ namespace XmlReaderApp.model
                 string email = txb_email.Text;
                 string password = txb_password.Text;
 
-                MessageBox.Show("Name: " + name + "E-mail: " + email + "Password: " + password);
+                string queryInsert = "INSERT INTO tb_user(user_name, user_email, user_password) VALUES(@UserName, @UserEmail, @UserPassword)";
+                MySqlCN mysql = new MySqlCN();
+
+                MySqlCommand cmd = new MySqlCommand(queryInsert, mysql.OpenConnection());
+                cmd.Parameters.AddWithValue("@UserName", name);
+                cmd.Parameters.AddWithValue("@UserEmail", email);
+                cmd.Parameters.AddWithValue("@UserPassword", password);
+
+                int rowsAffected = cmd.ExecuteNonQuery();
+                if (rowsAffected > 0)
+                {
+                    MessageBox.Show("Inserção bem-sucedida!");
+                }
+                else
+                {
+                    MessageBox.Show("Nenhuma linha foi inserida.");
+                }
             }
 
         }
